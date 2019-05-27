@@ -1,12 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
+from app.utils.common.common import show_index_colorful
 from config import CONFIG
 
 db = SQLAlchemy()
 
 
-def create_app(create_name):
+def create_app(config_name):
 
     from app.views.index import index_blu
 
