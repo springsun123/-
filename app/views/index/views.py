@@ -43,4 +43,4 @@ def newslist():
 
 @index_blu.route('/detail/<int:news_id>')
 def detail(news_id):
-    return render_template('index/detail.html')
+    return render_template('index/detail.html', new=news)
