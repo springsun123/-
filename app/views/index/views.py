@@ -25,23 +25,22 @@ def newslist():
     per_page = int(per_page) if per_page.isalnum() else 10
 
     # 1. 先从数据库中查询
-    paginate = db.session.query(News).filter(News.category_id == cid).paginate(page, per_page, False)
+    if cid == 0:
+        paginate = db.session.query(News).order_by(News.create_time.desc()).paginate(page, per_page, False)
+    else:
+        paginate = db.session.query(News).filter(News.category_id == cid).paginate(page, per_page, False)
     news_list = paginate.items
 
     # 2. 将查询出来的数据模型转换为需要的字典格式
     ret = {
-        'totalpage': 1,
-        'newsList': []
+        'totalpage': paginate.pages,
+        'newsList': [news.to_dict() for news in news_list]
     }
-
-    for news in news_list:
-        news_dict = dict()
-        news_dict['id'] = news.id
-        news_dict['id'] = news.id
-        news_dict['id'] = news.id
-        news_dict['id'] = news.id
-        news_dict['id'] = news.id
-        ret['newsList'].append(news_dict)
 
     # 3.将字典格式的数据转换为json格式，返回给前端
     return jsonify(ret)
+
+
+@index_blu.route('/detail/<int:news_id>')
+def detail(news_id):
+    return render_template('index/detail.html')

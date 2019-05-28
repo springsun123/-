@@ -24,6 +24,19 @@ class News(db.Model):
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)  # 记录的更新时间
     category = db.relationship('Category', backref='news')
 
+    def to_dict(self):
+        news_dict = {
+            'id': self.id,
+            'title': self.title,
+            'source': self.source,
+            'digest': self.digest,
+            'create_time': self.create_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'index_image_url': self.index_image_url,
+            'clicks': self.clicks,
+        }
+        return news_dict
+
+
 
 class Category(db.Model):
     """新闻分类"""
